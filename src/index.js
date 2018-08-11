@@ -13,7 +13,7 @@
  * @description 8-bit terminal colors for the selectColor function.
  */
 const colors = [
-  30, // Black
+  // 30, // Black
   31, // Red
   32, // Green
   33, // Yellow
@@ -32,11 +32,12 @@ const colors = [
  * https://github.com/visionmedia/debug/blob/master/src/common.js
  */
 function selectColor (namespace) {
-  let hash = 0x22222222
+  // 0x22222222 did not work well.
+  let hash = 0x44444444
   let i
 
   for (i in namespace) {
-    hash ^= namespace.charCodeAt(i)
+    hash ^= namespace.charCodeAt(i) & namespace.charCodeAt(i) << 1
     hash |= 0
   }
 
@@ -60,7 +61,20 @@ function init (namespace) {
    * @description The function that handles the `debug()`` calls.
    */
   function customDebug (string) {
-    if (typeof process.env.DEBUG !== 'undefined' && (process.env.DEBUG === '*' || RegExp(`/${process.env.DEBUG}/`).test(namespace) === true)) {
+    let pattern
+
+    /*
+      if(sharedPattern === false) {
+        pattern = ('' + process.env.DEBUG).replace('*', '.*')
+
+        console.info(`Pattern: ${pattern} Namespace: ${namespace}`)
+        sharedPattern = true
+      }
+     */
+
+    if (typeof process.env.DEBUG !== 'undefined' &&
+        (process.env.DEBUG === '*' ||
+        RegExp(pattern).test(namespace))) {
       const format = require('util').format
       const args = Array.from(arguments).slice(1)
       let diff = 0
