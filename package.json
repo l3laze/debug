@@ -1,6 +1,6 @@
 {
   "name": "ebug",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0-rc3",
   "description": "A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and millisecond timestamps between calls within the same module.",
   "main": "src/index.js",
   "author": "Tom Shaver <l3l_aze@yahoo.com>",
