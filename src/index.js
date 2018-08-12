@@ -36,7 +36,7 @@ function selectColor (namespace) {
   let hash = 0x44444444
   let i
 
-  for (i in namespace) {
+  for (i = 0; i < namespace.length; i++) {
     hash ^= namespace.charCodeAt(i) & namespace.charCodeAt(i) << 1
     hash |= 0
   }
@@ -51,8 +51,8 @@ function selectColor (namespace) {
  * @returns {Object} - The custom debug instance for the namespace.
  */
 function init (namespace) {
-  let lastCall
   let result
+  let lastCall = null
   let color = `\u001B[${selectColor(namespace)}m`
   let reset = '\u001B[0m'
 
@@ -63,15 +63,6 @@ function init (namespace) {
   function customDebug (string) {
     let pattern
 
-    /*
-      if(sharedPattern === false) {
-        pattern = ('' + process.env.DEBUG).replace('*', '.*')
-
-        console.info(`Pattern: ${pattern} Namespace: ${namespace}`)
-        sharedPattern = true
-      }
-     */
-
     if (typeof process.env.DEBUG !== 'undefined' &&
         (process.env.DEBUG === '*' ||
         RegExp(pattern).test(namespace))) {
@@ -80,7 +71,7 @@ function init (namespace) {
       let diff = 0
       let now = 0
 
-      if (lastCall === undefined) {
+      if (lastCall === null) {
         lastCall = Date.now()
       }
 
