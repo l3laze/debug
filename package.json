@@ -1,6 +1,6 @@
 {
   "name": "ebug",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc4",
   "description": "A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and millisecond timestamps between calls within the same module.",
   "homepage": "https://github.com/l3laze/ebug#readme",
   "author": "Tom Shaver <l3l_aze@yahoo.com>",
@@ -14,7 +14,7 @@
     "url": "git+github.com/l3laze/debug.git"
   },
   "bugs": {
-    "url" : "https://github.com/l3laze/ebug/issues"
+    "url": "https://github.com/l3laze/ebug/issues"
   },
   "devDependencies": {
     "standard": "^11.0.1"
