@@ -21,6 +21,6 @@
   },
   "scripts": {
     "lint": "yarn standard",
-    "test": "DEBUG=test node ./test.js"
+    "test": "DEBUG=test,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./test.js"
   }
 }

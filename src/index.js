@@ -55,17 +55,46 @@ function init (namespace) {
   let lastCall = null
   let color = `\u001B[${selectColor(namespace)}m`
   let reset = '\u001B[0m'
+  let patterns = []
+  let pats = []
+
+  if (typeof process.env.DEBUG !== 'undefined') {
+    if (process.env.DEBUG.indexOf(',') !== -1) {
+      pats = process.env.DEBUG.split(',')
+    } else {
+      pats.push(process.env.DEBUG)
+    }
+
+    pats.forEach((p) => {
+      p = p.replace(/\*+/, '.*')
+
+      if (p === '' || /[^*a-z0-9_.-]/i.test(p) || /(_|-){2,}/.test(p)) {
+        console.error(`ERROR -- Invalid process.env.DEBUG pattern: "${p}"`)
+      } else {
+        // console.info(`Found process.env.DEBUG pattern ${p}`)
+
+        patterns.push(p)
+      }
+    })
+  }
 
   /**
    * @internal
    * @description The function that handles the `debug()`` calls.
    */
   function customDebug (string) {
-    let pattern
+    let isEnabled = false
+    let p
 
-    if (typeof process.env.DEBUG !== 'undefined' &&
-        (process.env.DEBUG === '*' ||
-        RegExp(pattern).test(namespace))) {
+    for (p in patterns) {
+      // console.info('patterns[ p @ %s ] = %s', p, patterns[ p ])
+
+      if (patterns[ p ] === '*' || (patterns[ p ] !== '*' && RegExp(`^${patterns[ p ]}$`).test(namespace))) {
+        isEnabled = true
+      }
+    }
+
+    if (isEnabled && typeof process.env.DEBUG !== 'undefined') {
       const format = require('util').format
       const args = Array.from(arguments).slice(1)
       let diff = 0
@@ -78,13 +107,13 @@ function init (namespace) {
       now = Date.now()
       diff = now - lastCall
 
-      if (process.stdout.isTTY) {
+      if (process.stderr.isTTY) {
         result = `  ${color}${typeof namespace === 'undefined' ? 'debug' : namespace}${reset} ${args.length > 0 ? format(string, ...args) : string} ${color}${format('+%dms', diff)}${reset}\n`
       } else {
         result = `  ${typeof namespace === 'undefined' ? 'debug' : namespace} ${args.length > 0 ? format(string, args) : string} ${format('+%dms', diff)}\n`
       }
 
-      process.stdout.write(result)
+      process.stderr.write(result)
 
       lastCall = now
     }
