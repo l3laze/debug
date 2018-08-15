@@ -50,7 +50,7 @@ function selectColor (namespace) {
  * @argument {String} namespace - The namespace this is for.
  * @returns {Object} - The custom debug instance for the namespace.
  */
-function init (namespace) {
+module.exports = function init (namespace) {
   let result
   let lastCall = null
   let color = `\u001B[${selectColor(namespace)}m`
@@ -121,5 +121,3 @@ function init (namespace) {
 
   return customDebug
 }
-
-module.exports = init
