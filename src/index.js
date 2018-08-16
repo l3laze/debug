@@ -97,22 +97,26 @@ module.exports = function init (namespace, options = {}) {
     let message = ''
 
     if (process.stderr.isTTY && options.useColors) {
-      message = `${options.realTime ? new Date(now).toISOString() : ''}` +
-        ` ${options.useColors ? color : ''}` +
+      message = `${options.realTime ? new Date(now).toISOString() + ' ' : ''}` +
+        `${(options.wideSpacing && !options.realTime === false) ? '\t' : ''}` +
+        `${color}` +
         `${options.namespacePrefix}` +
-        `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
-        ` ${options.useColors ? reset : ''}` +
+        `${typeof namespace === 'undefined' ? 'debug' : namespace} ` +
+        `${reset}` +
+        `${options.wideSpacing ? '\t' : ''}` +
         `${args.length > 0 ? format(string, ...args) : string} ` +
-        `${options.useColors ? color : ''}` +
+        `${options.wideSpacing ? '\t' : ''}` +
+        `${color}` +
         `${options.realTime ? '' : format('+%dms', diff)}` +
-        `${options.useColors ? reset : ''}\n`
+        `${reset}\n`
     } else {
       message = `${options.realTime ? new Date(now).toISOString() : ''}` +
-      `${options.wideSpacing ? '\t' : ' '}` +
+      `${(options.wideSpacing && !options.realTime === false) ? '\t' : ''}` +
       `${options.namespacePrefix}` +
-      `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
-      `${options.wideSpacing ? '\t' : ' '}` +
+      `${typeof namespace === 'undefined' ? 'debug' : namespace} ` +
+      `${options.wideSpacing ? '\t' : ''}` +
       `${args.length > 0 ? format(string, args) : string} ` +
+      `${options.wideSpacing ? '\t' : ''}` +
       `${options.realTime === false ? format('+%dms', diff) : ''}\n`
     }
 

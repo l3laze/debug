@@ -17,16 +17,18 @@
     "url": "https://github.com/l3laze/ebug/issues"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "standard": "^11.0.1"
   },
   "scripts": {
     "lint": "yarn standard",
-    "test": "DEBUG=*test node ./tests/test.js",
-    "test-np": "DEBUG=*test node ./tests/test-namespacePrefix.js",
-    "test-rt": "DEBUG=*test node ./tests/test-realTime.js",
-    "test-uc": "DEBUG=*test node ./tests/test-useColors.js",
-    "test-ws": "DEBUG=*test node ./tests/test-ws.js",
-    "test-errors": "DEBUG=test,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./tests/test-errors.js",
-    "test-all": "DEBUG=*test node ./tests/test-all.js"
+    "test": "DEBUG=ebug* node ./tests/test.js",
+    "test-np": "DEBUG=ebug* node ./tests/test-namespacePrefix.js",
+    "test-rt": "DEBUG=ebug* node ./tests/test-realTime.js",
+    "test-uc": "DEBUG=ebug* node ./tests/test-useColors.js",
+    "test-ws": "DEBUG=ebug* node ./tests/test-ws.js",
+    "test-errors": "DEBUG=ebug*,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./tests/test-errors.js",
+    "test-all": "DEBUG=ebug* node ./tests/test-all.js",
+    "test-everything": "DEBUG=ebug* node ./tests/test.js && DEBUG=ebug* node ./tests/test-namespacePrefix.js && DEBUG=ebug* node ./tests/test-realTime.js && DEBUG=ebug* node ./tests/test-useColors.js && DEBUG=ebug* node ./tests/test-wideSpacing.js && DEBUG=ebug* node ./tests/test-rtucws.js && DEBUG=ebug* node ./tests/test-all.js && DEBUG=ebug*,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./tests/test-errors.js"
   }
 }
