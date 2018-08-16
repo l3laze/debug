@@ -1,6 +1,7 @@
 # ebug
 A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and millisecond timestamps between calls within the same module.
 
+[![< 5 kB](https://badge-size.herokuapp.com/l3laze/ebug/master/src/index.js)](https://github.com/l3laze/ebug/src/index.js)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/042bd18597844277946a6063cdd14cc2)](https://www.codacy.com/project/l3laze/ebug/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=l3laze/ebug&amp;utm_campaign=Badge_Grade_Dashboard)
 
 
@@ -46,7 +47,7 @@ DEBUG=test node ./test.js
 
 ```
 DEBUG=test node ./test.js
-  018-08-16T07:22:03.844Z	@ test	Something something something...dark side.
+  2018-08-16T07:22:03.844Z	@ test	Something something something...dark side.
 ```
 
 
