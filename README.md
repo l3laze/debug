@@ -15,7 +15,16 @@ A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has co
 > Initialize with the debugging namespace of the module (which will be colorized in terminal output). Then use it.
 
 ```javascript
+// Using default options
 const debug = require('ebug')('test')
+
+// With custom options
+const debug = require('ebug')('test', {
+  namespacePrefix: '@ ',
+  realTime: true,
+  useColors: false,
+  wideSpacing: true
+})
 
 // ...
 
@@ -25,17 +34,25 @@ debug('Something something something...%s.', 'dark side')
 > Run with the DEBUG environment variable properly set for the given module, or multiple modules, to see output.
 
 
-**Terminal Output** (any coloring is from the markdown renderer, and is not actual terminal coloring from the module)
+**Output From Default Options** (any coloring is from the markdown renderer, and is not actual terminal coloring from the module)
 
-```javascript
+```
 DEBUG=test node ./test.js
   test Something something something...dark side. +0ms
 ```
 
 
-**Using A Wildcard** (again - any coloring is from markdown, yadda yadda)
+**Output From Custom Options Above** (any coloring is from the markdown renderer, and is not actual terminal coloring from the module)
 
-```javascript
+```
+DEBUG=test node ./test.js
+  018-08-16T07:22:03.844Z	@ test	Something something something...dark side.
+```
+
+
+**Using A Wildcard For `process.env.DEBUG`** (again - any coloring is from markdown, yadda yadda)
+
+```
 DEBUG=test*,*test,*test* node ./test.js
 
 test Something something something...dark side. +0ms

@@ -50,13 +50,28 @@ function selectColor (namespace) {
  * @argument {String} namespace - The namespace this is for.
  * @returns {Object} - The custom debug instance for the namespace.
  */
-module.exports = function init (namespace) {
-  let result
+module.exports = function init (namespace, options = {}) {
   let lastCall = null
   let color = `\u001B[${selectColor(namespace)}m`
   let reset = '\u001B[0m'
   let patterns = []
   let pats = []
+
+  if (typeof options.useColors !== 'boolean') {
+    options.useColors = true
+  }
+
+  if (typeof options.realTime !== 'boolean') {
+    options.realTime = false
+  }
+
+  if (typeof options.wideSpacing !== 'boolean') {
+    options.wideSpacing = false
+  }
+
+  if (typeof options.namespacePrefix !== 'string') {
+    options.namespacePrefix = ''
+  }
 
   if (typeof process.env.DEBUG !== 'undefined') {
     if (process.env.DEBUG.indexOf(',') !== -1) {
@@ -78,8 +93,33 @@ module.exports = function init (namespace) {
     })
   }
 
+  function buildMessage (options, color, format, now, diff, namespace, string, args) {
+    let message = ''
+
+    if (process.stderr.isTTY && options.useColors) {
+      message = `${options.realTime ? new Date(now).toISOString() : ''}` +
+        ` ${options.useColors ? color : ''}` +
+        `${options.namespacePrefix}` +
+        `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
+        ` ${options.useColors ? reset : ''}` +
+        `${args.length > 0 ? format(string, ...args) : string} ` +
+        `${options.useColors ? color : ''}` +
+        `${options.realTime ? '' : format('+%dms', diff)}` +
+        `${options.useColors ? reset : ''}\n`
+    } else {
+      message = `${options.realTime ? new Date(now).toISOString() : ''}` +
+      `${options.wideSpacing ? '\t' : ' '}` +
+      `${options.namespacePrefix}` +
+      `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
+      `${options.wideSpacing ? '\t' : ' '}` +
+      `${args.length > 0 ? format(string, args) : string} ` +
+      `${options.realTime === false ? format('+%dms', diff) : ''}\n`
+    }
+
+    return message
+  }
+
   /**
-   * @internal
    * @description The function that handles the `debug()`` calls.
    */
   function customDebug (string) {
@@ -107,11 +147,7 @@ module.exports = function init (namespace) {
       now = Date.now()
       diff = now - lastCall
 
-      if (process.stderr.isTTY) {
-        result = `  ${color}${typeof namespace === 'undefined' ? 'debug' : namespace}${reset} ${args.length > 0 ? format(string, ...args) : string} ${color}${format('+%dms', diff)}${reset}\n`
-      } else {
-        result = `  ${typeof namespace === 'undefined' ? 'debug' : namespace} ${args.length > 0 ? format(string, args) : string} ${format('+%dms', diff)}\n`
-      }
+      const result = buildMessage(options, color, format, now, diff, namespace, string, args)
 
       process.stderr.write(result)
 

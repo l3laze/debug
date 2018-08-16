@@ -21,6 +21,12 @@
   },
   "scripts": {
     "lint": "yarn standard",
-    "test": "DEBUG=test,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./test.js"
+    "test": "DEBUG=*test node ./tests/test.js",
+    "test-np": "DEBUG=*test node ./tests/test-namespacePrefix.js",
+    "test-rt": "DEBUG=*test node ./tests/test-realTime.js",
+    "test-uc": "DEBUG=*test node ./tests/test-useColors.js",
+    "test-ws": "DEBUG=*test node ./tests/test-ws.js",
+    "test-errors": "DEBUG=test,'h|i','H\"i','h^i','h**i',ebug*,'h__i','h--i' node ./tests/test-errors.js",
+    "test-all": "DEBUG=*test node ./tests/test-all.js"
   }
 }
