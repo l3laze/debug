@@ -10,11 +10,11 @@ A mini NodeJS debug module based on https://github.com/visionmedia/debug.
 #### Supports
 
  * Terminal coloring for namespace & timestamps.
- * ISO timestamp of call to ebug or millisecond
-difference of timestamps between calls to ebug
+ * Real time timestamp of call to `ebug` or millisecond
+difference of timestamps between calls to `ebug`
 for the given namespace.
- * Optional global namespace prefix for messages. Defaults to nothing.
- * Custom string for spacing around namespaces in messages. Defaults to a single space.
+ * Optional global namespace prefix for messages.
+ * Custom string for spacing around namespaces in messages.
  * Uses [util.format](https://nodejs.org/api/util.html#util_util_format_format_args)
 internally, so all of the formatting there is available.
 
@@ -35,10 +35,11 @@ const debug = require('ebug')('test')
 
 // With custom options
 const debug = require('ebug')('test', {
-  namespacePrefix: '@ ',
+  namespacePrefix: '@',
   realTime: true,
+  useISO: true,
   useColors: false,
-  wideSpacing: true
+  spacingString: '\t'
 })
 
 // ...
@@ -49,26 +50,32 @@ debug('Something something something...%s.', 'dark side')
 > Run with the DEBUG environment variable properly set for the given module, or multiple modules, to see output.
 
 
-**Output From Default Options** (any coloring is from the markdown renderer, and is not actual terminal coloring from the module)
+----
 
-```
-DEBUG=test node ./test.js
+
+**Output With Default Options** (coloring added by markdown formatting for example effect)
+
+```javascript
+DEBUG=test node test.js
   test Something something something...dark side. +0ms
 ```
 
 
-**Output From Custom Options Above** (any coloring is from the markdown renderer, and is not actual terminal coloring from the module)
+**Output From Custom Options Above** (coloring removed for example effect)
 
+```log
+DEBUG=test node test.js
+2018-08-17T10:17:50.411Z	@test	Something something something...dark side.
 ```
-DEBUG=test node ./test.js
-  2018-08-16T07:22:03.844Z	@ test	Something something something...dark side.
-```
 
 
-**Using A Wildcard For `process.env.DEBUG`** (again - any coloring is from markdown, yadda yadda)
+----
 
-```
-DEBUG=test*,*test,*test* node ./test.js
+
+**Using A Wildcard For `process.env.DEBUG`** (coloring added by markdown formatting for example effect)
+
+```javascript
+DEBUG=test*,*test,*test* node test.js
 
 test Something something something...dark side. +0ms
 ```
@@ -81,9 +88,15 @@ test Something something something...dark side. +0ms
 
 ## **Options**
 
- 
+| Name | Default | Explanation |
+| --- | --- | --- |
+| `namespacePrefix` | '' | Prepended to namespaces in messages. |
+| `realTime` | false | Use real timestamps instead of millisecond difference.|
+| `useISO` | false | Use ISO timestamps instead of UTC. |
+| `useColors` | true | Use colors for terminal output. |
+| `spacingString` | ' ' | Custom spacing around namespace in messages. |
 
 
-## **Notes**
+### **Notes**
 
 * Black (30) has been removed from the list of colors available for now. Will return with background coloring included in a future update, unless I can find some way to get the background color of the terminal..

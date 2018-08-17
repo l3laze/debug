@@ -46,7 +46,7 @@ module.exports = function init (namespace, options = {}) {
   if (typeof options.realTime !== 'boolean') {
     options.realTime = false
   }
-  
+
   if (typeof options.useISO !== 'boolean') {
     options.useISO = false
   }
