@@ -1,7 +1,7 @@
 'use strict'
 
 const debug = require('./../src/index.js')('ebug-test', {
-  wideSpacing: true
+  spacingString: '\t'
 })
 
 const dashes = ('-'.repeat(Math.max(1, Math.floor(process.stdout.columns - __filename.length * 1.25))))

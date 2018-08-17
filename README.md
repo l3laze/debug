@@ -1,8 +1,22 @@
 # ebug
-A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and millisecond timestamps between calls within the same module.
+A mini NodeJS debug module based on https://github.com/visionmedia/debug.
 
-[![< 5 kB](https://badge-size.herokuapp.com/l3laze/ebug/master/src/index.js)](https://github.com/l3laze/ebug/src/index.js)
+
+[![NPM](https://nodei.co/npm/ebug.png?compact=true)](https://nodei.co/npm/ebug/)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/042bd18597844277946a6063cdd14cc2)](https://www.codacy.com/project/l3laze/ebug/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=l3laze/ebug&amp;utm_campaign=Badge_Grade_Dashboard)
+
+
+#### Supports
+
+ * Terminal coloring for namespace & timestamps.
+ * ISO timestamp of call to ebug or millisecond
+difference of timestamps between calls to ebug
+for the given namespace.
+ * Optional global namespace prefix for messages. Defaults to nothing.
+ * Custom string for spacing around namespaces in messages. Defaults to a single space.
+ * Uses [util.format](https://nodejs.org/api/util.html#util_util_format_format_args)
+internally, so all of the formatting there is available.
 
 
 ----
@@ -65,8 +79,11 @@ test Something something something...dark side. +0ms
 
 ----
 
+## **Options**
 
-## **Notes**:
+ 
+
+
+## **Notes**
+
 * Black (30) has been removed from the list of colors available for now. Will return with background coloring included in a future update, unless I can find some way to get the background color of the terminal..
-
-* Uses [util.format](https://nodejs.org/api/util.html#util_util_format_format_args) internally, so can do any of the formatting available there.

@@ -4,7 +4,7 @@ const debug = require('./../src/index.js')('ebug-test', {
   useColors: false,
   realTime: true,
   namespacePrefix: '@ ',
-  wideSpacing: true
+  spacingString: '\t'
 })
 
 const dashes = ('-'.repeat(Math.max(1, Math.floor(process.stdout.columns - __filename.length * 1.25))))

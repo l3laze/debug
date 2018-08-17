@@ -1,17 +1,9 @@
-/**
+/*
  * @author Tom Shaver <l3l_aze@yahoo.com>
  * @description A small NodeJS module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and ms timestamps.
- * @example
- *  const name = 'test1'
- *  const debug = require('lil-debug')(name)
- *
- *  debug('Testing %s', name)
  */
 
-/**
- * @const colors
- * @description 8-bit terminal colors for the selectColor function.
- */
+// ANSI escape code colors.
 const colors = [
   // 30, // Black
   31, // Red
@@ -23,11 +15,7 @@ const colors = [
   37 // White
 ]
 
-/**
- * @function
- * @argument {String} namespace - The namespace to create an instance for.
- * @returns {Number} - A color from the <colors> list.
- *
+/*
  * Based on visionmedia/debug module's selectColor method from
  * https://github.com/visionmedia/debug/blob/master/src/common.js
  */
@@ -44,12 +32,6 @@ function selectColor (namespace) {
   return colors[ Math.abs(hash) % colors.length ]
 }
 
-/**
- * @constructor
- * @description Initializes an instance of the debugger for the given namespace.
- * @argument {String} namespace - The namespace this is for.
- * @returns {Object} - The custom debug instance for the namespace.
- */
 module.exports = function init (namespace, options = {}) {
   let lastCall = null
   let color = `\u001B[${selectColor(namespace)}m`
@@ -64,9 +46,13 @@ module.exports = function init (namespace, options = {}) {
   if (typeof options.realTime !== 'boolean') {
     options.realTime = false
   }
+  
+  if (typeof options.useISO !== 'boolean') {
+    options.useISO = false
+  }
 
-  if (typeof options.wideSpacing !== 'boolean') {
-    options.wideSpacing = false
+  if (typeof options.spacingString !== 'string') {
+    options.spacingString = ' '
   }
 
   if (typeof options.namespacePrefix !== 'string') {
@@ -93,39 +79,39 @@ module.exports = function init (namespace, options = {}) {
     })
   }
 
-  function buildMessage (options, color, format, now, diff, namespace, string, args) {
+  function buildMessage (options, format, now, diff, namespace, string, args) {
     let message = ''
 
     if (process.stderr.isTTY && options.useColors) {
-      message = `${options.realTime ? new Date(now).toISOString() + ' ' : ''}` +
-        `${(options.wideSpacing && !options.realTime === false) ? '\t' : ''}` +
+      message = `${color}` +
+        `${options.realTime ? new Date(now)[ options.useISO ? 'toISOString' : 'toUTCString' ]() : ''}` +
+        `${reset}` +
+        `${options.realTime === true ? options.spacingString : ''}` +
         `${color}` +
         `${options.namespacePrefix}` +
-        `${typeof namespace === 'undefined' ? 'debug' : namespace} ` +
+        `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
         `${reset}` +
-        `${options.wideSpacing ? '\t' : ''}` +
-        `${args.length > 0 ? format(string, ...args) : string} ` +
-        `${options.wideSpacing ? '\t' : ''}` +
+        `${options.spacingString}` +
+        `${args.length > 0 ? format(string, ...args) : string}` +
+        `${options.spacingString}` +
         `${color}` +
         `${options.realTime ? '' : format('+%dms', diff)}` +
         `${reset}\n`
     } else {
-      message = `${options.realTime ? new Date(now).toISOString() : ''}` +
-      `${(options.wideSpacing && !options.realTime === false) ? '\t' : ''}` +
+      message =
+      `${options.realTime ? new Date(now)[ options.useISO ? 'toISOString' : 'toUTCString' ]() : ''}` +
+      `${options.realTime === true ? options.spacingString : ''}` +
       `${options.namespacePrefix}` +
-      `${typeof namespace === 'undefined' ? 'debug' : namespace} ` +
-      `${options.wideSpacing ? '\t' : ''}` +
-      `${args.length > 0 ? format(string, args) : string} ` +
-      `${options.wideSpacing ? '\t' : ''}` +
+      `${typeof namespace === 'undefined' ? 'debug' : namespace}` +
+      `${options.spacingString}` +
+      `${args.length > 0 ? format(string, args) : string}` +
+      `${options.spacingString}` +
       `${options.realTime === false ? format('+%dms', diff) : ''}\n`
     }
 
     return message
   }
 
-  /**
-   * @description The function that handles the `debug()`` calls.
-   */
   function customDebug (string) {
     let isEnabled = false
     let p
@@ -139,7 +125,7 @@ module.exports = function init (namespace, options = {}) {
     }
 
     if (isEnabled && typeof process.env.DEBUG !== 'undefined') {
-      const format = require('util').format
+      const { format } = require('util')
       const args = Array.from(arguments).slice(1)
       let diff = 0
       let now = 0
@@ -151,7 +137,7 @@ module.exports = function init (namespace, options = {}) {
       now = Date.now()
       diff = now - lastCall
 
-      const result = buildMessage(options, color, format, now, diff, namespace, string, args)
+      const result = buildMessage(options, format, now, diff, namespace, string, args)
 
       process.stderr.write(result)
 
