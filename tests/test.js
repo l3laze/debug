@@ -26,7 +26,7 @@ function captureStream (stream, allowEcho) {
     unhook: function unhook () {
       stream.write = oldWrite
     },
-    captured: function () {
+    captured: function captured () {
       return buf
     }
   }
@@ -143,6 +143,8 @@ describe('ebug', function () {
 
   describe('#process.env.DEBUG=name,spaces', function handlesErrors () {
     it('should log an error message for bad process.env.DEBUG args', function doesntLikeBadEnv (done) {
+      this.timeout(5000)
+
       debug = require('./../src/index.js')('ebug-test')
 
       const testFile = require('path').join(__dirname, require('path').sep, 'test-errors.js')
