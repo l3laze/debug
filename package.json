@@ -1,7 +1,7 @@
 {
   "name": "ebug",
   "version": "1.0.0-rc8",
-  "description": "A mini NodeJS debug module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and millisecond timestamps between calls within the same module.",
+  "description": "A mini NodeJS debug module. Options: terminal coloring; ISO or UTC call timestamps or per-namespace millisecond difference timestamps; global namespace prefix in messages; namespace spacing in messages.",
   "homepage": "https://github.com/l3laze/ebug#readme",
   "author": "Tom Shaver <l3l_aze@yahoo.com>",
   "license": "MIT",
@@ -18,14 +18,22 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "codecov": "^3.0.4",
+    "cross-env": "^5.2.0",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "standard": "^11.0.1"
   },
   "dependencies": {},
+  "nyc": {
+    "sourceMap": true
+  },
   "scripts": {
     "lint": "yarn standard",
-    "test": "DEBUG=ebug* mocha tests/test.js",
-    "nyct": "DEBUG=ebug* mocha tests/test.js"
+    "test": "cross-env DEBUG=ebug* mocha tests/test.js",
+    "nyct": "cross-env DEBUG=ebug* nyc mocha tests/test.js",
+    "textcov": "nyc report --reporter=text-lcov > coverage.lcov",
+    "tnc": "cross-env DEBUG=ebug* nyc mocha tests/test.js && nyc report --reporter=text-lcov > coverage.lcov",
+    "codecov": "codecov"
   }
 }

@@ -1,0 +1,25 @@
+language: node_js
+
+node_js: "lts/*"
+
+os:
+  - linux
+  - osx
+
+cache:
+  yarn: true
+
+before_install:
+  - npm i -g yarn
+
+script:
+  - yarn lint
+  - yarn nyct
+
+after_success:
+  - chmod -R u+rw /home/travis/build/l3laze/ebug
+  - yarn textcov
+  - yarn codecov
+
+notifications:
+  email: false

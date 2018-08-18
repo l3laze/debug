@@ -12,12 +12,15 @@ function captureStream (stream, allowEcho) {
   var buf = ''
 
   if (typeof allowEcho !== 'boolean') {
+    /* istanbul ignore next */
     allowEcho = true
   }
 
   stream.write = function (chunk, encoding, callback) {
-    buf += chunk.toString() // chunk is a String or Buffer
+    buf += chunk.toString()
+
     if (allowEcho === true) {
+      /* istanbul ignore next */
       oldWrite.apply(stream, arguments)
     }
   }
@@ -143,7 +146,7 @@ describe('ebug', function () {
 
   describe('#process.env.DEBUG=name,spaces', function handlesErrors () {
     it('should log an error message for bad process.env.DEBUG args', function doesntLikeBadEnv (done) {
-      this.timeout(5000)
+      this.timeout(10000)
 
       debug = require('./../src/index.js')('ebug-test')
 
@@ -175,6 +178,7 @@ describe('ebug', function () {
         if (code === 0 && signal !== 'null') {
           done()
         } else {
+          /* istanbul ignore next */
           done(new Error(require('util').format('Child process exited with code %s and signal %s.', code, signal)))
         }
       })

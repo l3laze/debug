@@ -5,9 +5,21 @@ A mini NodeJS debug module based on https://github.com/visionmedia/debug.
 [![NPM](https://nodei.co/npm/ebug.png?compact=true)](https://nodei.co/npm/ebug/)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/042bd18597844277946a6063cdd14cc2)](https://www.codacy.com/project/l3laze/ebug/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=l3laze/ebug&amp;utm_campaign=Badge_Grade_Dashboard)
+[![CodeCov](https://img.shields.io/codecov/c/github/l3laze/ebug/master.svg)](https://github.com/l3laze/ebug)
+
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/github/l3laze/ebug?branch=master&svg=true)](https://ci.appveyor.com/project/l3laze/ebug)
+[![Linux and Mac Build Status](https://travis-ci.org/l3laze/ebug.svg?branch=master)](https://travis-ci.org/l3laze/ebug)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/l3laze/ebug/badge.svg)](https://snyk.io/test/github/l3laze/ebug)
+
+[![Dependencies](https://img.shields.io/david/l3laze/ebug.svg)](https://github.com/l3laze/ebug)
+
+[![Dev Dependencies](https://img.shields.io/david/dev/l3laze/ebug.svg)](https://github.com/l3laze/ebug)
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 
-#### Supports
+#### Optional Features
 
  * Terminal coloring for namespace & timestamps.
  * Real time timestamp of call to `ebug` or millisecond
@@ -25,9 +37,11 @@ internally, so all of the formatting there is available.
 ## **Usage**
 
 
-**test.js**
+1. Initialize with the debugging namespace of the module (which will be colorized in terminal output).
+2. Run with the DEBUG environment variable properly set for the given module, or multiple modules, to see output.
 
-> Initialize with the debugging namespace of the module (which will be colorized in terminal output). Then use it.
+
+### **`test.js`**
 
 ```javascript
 // Using default options
@@ -42,16 +56,11 @@ const debug = require('ebug')('test', {
   spacingString: '\t'
 })
 
-// ...
-
 debug('Something something something...%s.', 'dark side')
 ```
 
-> Run with the DEBUG environment variable properly set for the given module, or multiple modules, to see output.
 
-
-----
-
+### **`terminal/command line`**
 
 **Output With Default Options** (coloring added by markdown formatting for example effect)
 
@@ -97,6 +106,6 @@ test Something something something...dark side. +0ms
 | `spacingString` | ' ' | Custom spacing around namespace in messages. |
 
 
-### **Notes**
+## **Note**
 
-* Black (30) has been removed from the list of colors available for now. Will return with background coloring included in a future update, unless I can find some way to get the background color of the terminal..
+Black (30) has been removed from the list of colors available for now. Will return with background coloring included in a future update, unless I can find some way to get the background color of the terminal..
