@@ -1,7 +1,4 @@
-/*
- * @author Tom Shaver <l3l_aze@yahoo.com>
- * @description A small NodeJS module based on https://github.com/visionmedia/debug. Has colorized output in terminal for namespaces, formatted output, and ms timestamps.
- */
+'use strict'
 
 // ANSI escape code colors.
 const colors = [
