@@ -1,6 +1,6 @@
 {
   "name": "ebug",
-  "version": "1.0.0-rc8",
+  "version": "1.0.0-rc12",
   "description": "A mini NodeJS debug module. Options: terminal coloring; ISO or UTC call timestamps or per-namespace millisecond difference timestamps; global namespace prefix in messages; namespace spacing in messages.",
   "homepage": "https://github.com/l3laze/ebug#readme",
   "author": "Tom Shaver <l3l_aze@yahoo.com>",
