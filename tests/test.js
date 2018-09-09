@@ -174,12 +174,12 @@ describe('ebug', function () {
         }
       })
 
-      spawned.on('exit', (code, signal) => {
-        if (code === 0 && signal !== 'null') {
+      spawned.on('exit', (code) => {
+        if (code === 0 || code === null) {
           done()
         } else {
           /* istanbul ignore next */
-          done(new Error(require('util').format('Child process exited with code %s and signal %s.', code, signal)))
+          done(new Error(require('util').format('Child process exited with code %s.', code)))
         }
       })
     })
